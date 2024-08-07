@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+
+Person(c, "Customer")
+Person(o, "Operator")
+
+
+System_Boundary(system, "Portfolio"){
+    Container(api, "API", "C# netcore", "Allow operators to: create, update and delete assets. And customers to: buy, sell and view statement")
+
+    Container(email, "Email", "C# netcore job", "Verify assets near expiration date")
+
+    Rel(email, o, "Send email")
+
+    Rel(c, api, "HTTPS")
+    Rel(o, api, "HTTPS")
+    
+    ContainerDb(db, "Database", "", "")
+
+    Rel(api, db, "Reads/Writes")
+    Rel(email, db, "Reads")
+}
+    Container_Ext(q, "SendPulse", "API", "Send Email")
+    Rel(email, q, "Send")
+
+
+@enduml

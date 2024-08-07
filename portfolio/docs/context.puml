@@ -1,0 +1,26 @@
+@startuml usecase
+!include <C4/C4_Context>
+
+Person(c, "Customer")
+Person(o,"Operator")
+
+System(api, "Portfolio", "Allows to: manage, buy, sell and view statement")
+
+note "Buy, sell and view statement" as cn1
+
+c --- cn1
+cn1 ---> api
+
+note "Manage investments CRUD" as on1
+
+o --- on1
+on1 ---> api
+
+System_Ext(email, "Email", "Email operators when a product is about to expire")
+o <--- email
+
+System(job, "Job", "Detect wether an investment will expire")
+
+job -> email
+
+@enduml
